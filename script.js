@@ -1,9 +1,10 @@
 async function convertCurrency() {
-  let amount = document.getElementById('amount').value;
+  let amount = document.getElementById('inputAmount').value;
   let fromCurrency = document.getElementById('fromCurrency').value;
   let toCurrency = document.getElementById('toCurrency').value;
-  let resultDiv = document.getElementById('result');
+  let resultDiv = document.getElementById('convertedAmount');
 
+  //check if input is valid
   if (amount === '' || amount <= 0) {
     alert('Please enter a valid amount.');
     return;
@@ -18,7 +19,7 @@ async function convertCurrency() {
   //cool loading msg
   resultDiv.innerHTML = 'Converting...';
 
-  let url =
+  let urlAPI =
     'https://api.frankfurter.app/latest?amount=' +
     amount +
     '&from=' +
@@ -27,7 +28,7 @@ async function convertCurrency() {
     toCurrency;
 
   try {
-    let response = await fetch(url);
+    let response = await fetch(urlAPI);
     let data = await response.json();
 
     let convertedAmount = data.rates[toCurrency].toFixed(2);
@@ -35,12 +36,12 @@ async function convertCurrency() {
     resultDiv.innerHTML =
       amount + ' ' + fromCurrency + ' = ' + convertedAmount + ' ' + toCurrency;
   } catch (error) {
-    resultDiv.innerHTML = 'Error converting currency. Try again.';
+    resultDiv.innerHTML = 'Error converting currency. Please try again.';
   }
 }
 
 //reset button
-function resetForm() {
+function resetApp() {
   document.getElementById('converterForm').reset();
   document.getElementById('result').innerHTML = '';
 }
